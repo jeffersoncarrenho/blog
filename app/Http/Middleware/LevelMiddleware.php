@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Middleware;
-
 use Closure;
+use Auth;
 
 class LevelMiddleware
 {
@@ -15,7 +15,7 @@ class LevelMiddleware
      */
     public function handle($request, Closure $next, $level)
     {
-      if (Auth()::user()->level>=$level) {
+      if (Auth::user()->level>=$level) {
         return $next($request);
       }else {
         return redirect('/');
