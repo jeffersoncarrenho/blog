@@ -8,6 +8,12 @@
     </li>
 </ul>
 
+@if(session('msg'))
+  <div class="alert alert-success">
+    {!! session('msg') !!}
+  </div>
+@endif
+
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
@@ -21,7 +27,7 @@
           <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filtros <span class="caret"></span></button>
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="#">Action</a></li>
+              <li><a href="{!! url('/painel/listar-usuarios/desativados') !!}">Desativados</a></li>
             </ul>
           </div>
         </div>
@@ -34,6 +40,7 @@
             <th>Tipo</th>
             <th>Email</th>
             <th>Data Inscrição</th>
+            <th></th>
           </tr>
           @foreach($users as $user)
           <tr>
@@ -46,6 +53,15 @@
 
             <td>{!! $user->email !!}</td>
             <td>{!! $user->created_at->diffForHumans() !!}</td>
+            <td>
+              @if(!$user->deleted_at)
+                <a href="{!! url('/painel/deletar-usuario/'.$user->id) !!}"
+                  class="btn btn-danger btn-sm"
+                  title="Deletar Usuário">
+                  <span class="glyphicon glyphicon-trash">-</span>
+                </a>
+              @endif
+            </td>
           </tr>
           @endforeach
       </table>
