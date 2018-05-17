@@ -17,13 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'Usuarios\PainelController@index')->name('home');
 
 Route::middleware(['auth'])->prefix('painel')->group(function () {
     Route::get('/','Usuarios\PainelController@index');
 
     //Routes - Todos os usuários de level:0(Leitor)
     Route::middleware(['level:0'])->group(function () {
+      Route::get('/configuracoes', 'Usuarios\UserController@config');
+      Route::post('/configuracoes', 'Usuarios\UserController@config_update');
     });
     //Routes - Todos os usuários de level:1(Revisor)
     Route::middleware(['level:1'])->group(function () {

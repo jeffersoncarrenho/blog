@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Usuarios;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
 use App\User;
 
 class UserController extends Controller
@@ -43,4 +44,39 @@ class UserController extends Controller
       User::find($id)->delete();
       return back()->with('msg', 'Usuário deletado com sucesso');
     }
+
+    public function config(){
+      return view('usuarios.user.config');
+    }
+
+    public function config_update(Request $request){
+      switch ($request->input('tipo')) {
+        case 'avatar':
+          // code...
+          break;
+        case 'n.e.d':
+          // code...
+          break;
+        case 'senha':
+
+            $request->validate([
+              'senha_atual' => 'required|string|min:6',
+              'password'    => 'required|string|min:6|confirmed',
+            ]);
+
+            if (password_verify($request->input('senha_atual'), Auth::user()->password)) {
+              $user = Auth::user();
+              $user->password = bcrypt($request->input('password'));
+              $user->save();
+
+              return back()->with('msg', 'Senha alterada com sucesso');
+            } else {
+              return back()->with('msg', 'Senha atual não é compatível');
+            }
+            break;
+          }
+        }
+
+
+
 }
