@@ -68,14 +68,14 @@ class UserController extends Controller
               $user = Auth::user();
               $user->password = bcrypt($request->input('password'));
               $user->save();
-
               return back()->with('msg', 'Senha alterada com sucesso');
             } else {
-              return back()->with('msg', 'Senha atual não é compatível');
+              return back()->with('erro', 'Senha atual não é compatível.');
             }
             break;
           }
         }
+
 
 
 
