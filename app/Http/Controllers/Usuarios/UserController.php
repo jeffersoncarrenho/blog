@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
+use Storage;
 
 class UserController extends Controller
 {
@@ -52,38 +53,45 @@ class UserController extends Controller
   public function config_update(Request $request){
     switch ($request->input('tipo')) {
       case 'avatar':
-      // code...
+        $request->validate([
+          'avatar' => 'required'
+        ]);
+        Storage::disk('upl_avatar')->put('avatar_'.Auth::user()->id .'.png', file_get_contents($request->file('avatar')));
+        $user = Auth::user();
+        $user->avatar = url('assets/avatar/'.'avatar_'.Auth::user()->id.'.png');
+        $user->save();
+        return back()->with('msg', 'Avatar alterado com sucesso');
       break;
-      case 'n.e.d':
-      $user = Auth::user();
-      if (!is_null($request->input('name'))) {
-        $user->name = $request->input('name');
-      }
-      if (!is_null($request->input('email'))) {
-        $user->email = $request->input('email');
-      }
-      if (!is_null($request->input('descricao'))) {
-        $user->descricao = $request->input('descricao');
-      }
-      $user->save();
 
-      return back()->with('msg', 'Alteração realizado com sucesso');
-      break;
+      case 'n.e.d':
+        $user = Auth::user();
+        if (!is_null($request->input('name'))) {
+          $user->name = $request->input('name');
+        }
+        if (!is_null($request->input('email'))) {
+          $user->email = $request->input('email');
+        }
+        if (!is_null($request->input('descricao'))) {
+          $user->descricao = $request->input('descricao');
+        }
+        $user->save();
+        return back()->with('msg', 'Alteração realizado com sucesso');
+        break;
 
       case 'senha':
-      $request->validate([
-      'senha_atual' => 'required|string|min:6',
-      'password'    => 'required|string|min:6|confirmed',
-      ]);
+        $request->validate([
+        'senha_atual' => 'required|string|min:6',
+        'password'    => 'required|string|min:6|confirmed',
+        ]);
 
-      if (password_verify($request->input('senha_atual'), Auth::user()->password)) {
-        $user = Auth::user();
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-        return back()->with('msg', 'Senha alterada com sucesso');
-      } else {
-        return back()->with('erro', 'Senha atual não é compatível.');
-      }
+        if (password_verify($request->input('senha_atual'), Auth::user()->password)) {
+          $user = Auth::user();
+          $user->password = bcrypt($request->input('password'));
+          $user->save();
+          return back()->with('msg', 'Senha alterada com sucesso');
+        }else {
+          return back()->with('erro', 'Senha atual não é compatível.');
+        }
       break;
     }
   }
