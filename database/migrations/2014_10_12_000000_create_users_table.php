@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar')->default('http://via.placeholder.com/350x350');
+            $table->text('descricao');
             $table->integer('level')->default(0);
             $table->string('password');
             $table->rememberToken();

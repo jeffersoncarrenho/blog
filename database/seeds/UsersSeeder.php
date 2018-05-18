@@ -15,6 +15,8 @@ class UsersSeeder extends Seeder
         [
           'name' => 'Leitor',
           'email' => 'leitor@leitor.com',
+          'avatar' => '',
+          'descricao' => 'Eu sou uma descrição.',
           'password' => bcrypt('123456'),
           'level' => 0,
           'created_at' => Carbon\Carbon::now(),
@@ -22,6 +24,8 @@ class UsersSeeder extends Seeder
         [
           'name' => 'Revisor',
           'email' => 'revisor@revisor.com',
+          'avatar' => '',
+          'descricao' => 'Eu sou uma descrição.',
           'password' => bcrypt('123456'),
           'level' => 1,
           'created_at' => Carbon\Carbon::now(),
@@ -29,6 +33,8 @@ class UsersSeeder extends Seeder
         [
           'name' => 'Admin',
           'email' => 'admin@admin.com',
+          'avatar' => '',
+          'descricao' => 'Eu sou uma descrição.',
           'password' => bcrypt('123456'),
           'level' => 2,
           'created_at' => Carbon\Carbon::now(),
