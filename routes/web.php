@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'Usuarios\PainelController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->prefix('painel')->group(function () {
     Route::get('/','Usuarios\PainelController@index');
