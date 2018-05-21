@@ -29,6 +29,7 @@ Route::middleware(['auth'])->prefix('painel')->group(function () {
     });
     //Routes - Todos os usuários de level:1(Revisor)
     Route::middleware(['level:1'])->group(function () {
+
     });
     //Routes - Todos os usuários de level:2(Admin)
     Route::middleware(['level:2'])->group(function () {
@@ -36,5 +37,9 @@ Route::middleware(['auth'])->prefix('painel')->group(function () {
       Route::post('/criar-usuario', 'Usuarios\UserController@store');
       Route::get('/listar-usuarios/{filtro?}', 'Usuarios\UserController@index');
       Route::get('/deletar-usuario/{id}', 'Usuarios\UserController@destroy');
+
+      Route::get('/tags','Usuarios\TagsController@index');
+      Route::post('/tags','Usuarios\TagsController@store');
+
     });
 });

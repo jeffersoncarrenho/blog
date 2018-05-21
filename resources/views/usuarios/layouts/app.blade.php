@@ -48,23 +48,11 @@
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
                             <li class="nav-item dropdown">
-                              <style media="screen">
-                              .avatar{
-                                border-radius: 50%;
-                                position: relative;
-                                top: -7px;
-                                float: left;
-                                left: -8px;
-                              }
-                              </style>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  <img src="{{url(Auth::user()->avatar)}}" width="36" class="avatar"> {{ Auth::user()->name }}
+                                    {{ Auth::user()->name }}
                                 </a>
 
-
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item" href="{{url('painel')}}">Painel</a>
-                                  <a class="dropdown-item" href="{{url('painel/configuracoes')}}">Configurações</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -94,6 +82,8 @@
                 @endif
                 @if(Auth::user()->level>=1)
                 <li class="list-group-item text-center">Usuário:Revisor</li>
+                <li class="list-group-item text-center"><h4>Posts</h4></li>
+                <li class="list-group-item"> <a href="{!! url('/painel/tags') !!}">-> Tags</a> </li>
                 @endif
                 @if(Auth::user()->level>=2)
                 <li class="list-group-item text-center">Usuário:Admin</li>
