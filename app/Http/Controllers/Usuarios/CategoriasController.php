@@ -13,26 +13,37 @@ class CategoriasController extends Controller
     }
 
     public function store(Request $request){
+
+      $request->validate([
+          'nome' => 'required|unique:categorias|min:1',
+          'cor' => 'required|min:1',
+      ]);
+
       $categoria = new Categorias;
       $categoria->name = $request->input('name');
       $categoria->cor = $request->input('cor');
       $categoria->slug = str_slug($request->input('name'));
       $categoria->save();
-      return redirect('painel/categorias')->with('msg', 'Categoria incluída com sucesso');
+      return back()->with('mensagem', 'Categoria criada com sucesso.');
     }
 
     public function update(Request $request){
-      Categorias::find($request->input('id'));
-      $categoria = new Categorias;
+
+      $request->validate([
+          'nome' => 'required|min:1',
+          'cor' => 'required|min:1',
+      ]);
+
+      $categoria = Categorias::find($request->input('id'));
       $categoria->name = $request->input('name');
       $categoria->cor = $request->input('cor');
       $categoria->slug = str_slug($request->input('name'));
       $categoria->save();
-      return redirect('painel/categorias')->with('msg', 'Categoria atualizada com sucesso');
+      return back()->with('mensagem', 'Categoria alterada com sucesso.');
     }
 
     public function destroy($id){
       Categorias::find($id)->delete();
-      return redirect('painel/categorias')->with('msg', 'Categoria excluída com sucesso');
+      return redirect('painel/categorias')->with('mensagem', 'Categoria excluída com sucesso');
     }
 }
